@@ -19,6 +19,7 @@
       "@/*": ["./src/*"],
       "@styles/*": ["./src/styles/*"],
       "@components/*": ["./src/components/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "include": ["src", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.js"],
