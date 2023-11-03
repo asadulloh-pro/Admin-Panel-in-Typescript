@@ -1,8 +1,20 @@
-import { createSlice } from "@reduxjs/toolkit";
+import service from "@/services";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export interface IUser {
-  id: string;
-  name: string;
+  address: {
+    geolocation: Record<"long" | "long", string>;
+    city: string;
+    street: string;
+    number: number;
+    zipcode: string;
+  };
+  id: number;
+  email: `${string}@gmail.com"`;
+  username: string;
+  password: string;
+  name: Record<"firstname" | "lastname", string>;
+  phone: string;
 }
 
 export interface IUsers {
@@ -11,9 +23,14 @@ export interface IUsers {
 }
 
 const initialState: IUsers = {
-  users: [{ id: "1", name: "Asadulloh" }],
+  users: [],
   user: null
 };
+
+export const fetchUser = createAsyncThunk("/users/fetchById", async () => {
+  const response = await service.get(`/users`);
+  return response.data;
+});
 
 export const users = createSlice({
   name: "users",
@@ -23,6 +40,11 @@ export const users = createSlice({
       const user = state.users.find(user => user.id === action.payload);
       state.user = user || null;
     }
+  },
+  extraReducers: builder => {
+    builder.addCase(fetchUser.fulfilled, (state, action) => {
+      state.users = action.payload;
+    });
   }
 });
 
